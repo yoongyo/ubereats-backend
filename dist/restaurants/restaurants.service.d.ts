@@ -1,0 +1,35 @@
+import { User } from "src/users/entities/user.entity";
+import { Repository } from "typeorm";
+import { AllCategoriesOutput } from "./dtos/all-categories.dto";
+import { CategoryInput, CategoryOutput } from "./dtos/category.dto";
+import { CreateDishInput, CreateDishOutput } from "./dtos/create-dish.dto";
+import { CreateRestaurantInput, CreateRestaurantOutput } from "./dtos/create-restaurant.dto";
+import { DeleteDishInput, DeleteDishOutput } from "./dtos/delete-dish.dto";
+import { DeleteRestauranInput, DeleteRestaurantOutput } from "./dtos/delete-restaurant.dto";
+import { EditDishOutput, EdithDishInput } from "./dtos/edit-dish.dto";
+import { EditRestaurantInput, EditRestaurantOutput } from "./dtos/edit-restaurant.dto";
+import { RestaurantInput, RestaurantOutput } from "./dtos/restaurant.dto";
+import { RestaurantsInput, RestaurantsOutput } from "./dtos/restaurants.dto";
+import { SearchRestaurantInput, SearchRestaurantOutput } from "./dtos/search-restaurant.dto";
+import { Category } from "./entities/category.entity";
+import { Dish } from "./entities/dish.entity";
+import { Restaurant } from "./entities/restaurant.entity";
+import { CategoryRepository } from "./repositories/category.repository";
+export declare class RestaurantService {
+    private readonly restaurants;
+    private readonly categories;
+    private readonly dishes;
+    constructor(restaurants: Repository<Restaurant>, categories: CategoryRepository, dishes: Repository<Dish>);
+    createRestaurant(owner: User, createRestaurantInput: CreateRestaurantInput): Promise<CreateRestaurantOutput>;
+    editRestaurant(owner: User, editRestaurantInput: EditRestaurantInput): Promise<EditRestaurantOutput>;
+    deleteRestaurant(owner: User, { restaurantId }: DeleteRestauranInput): Promise<DeleteRestaurantOutput>;
+    allCategories(): Promise<AllCategoriesOutput>;
+    countRestaurants(category: Category): Promise<number>;
+    findCategoryBySlug({ slug }: CategoryInput, page: number): Promise<CategoryOutput>;
+    allRestaurants({ page }: RestaurantsInput): Promise<RestaurantsOutput>;
+    findRestaurantById({ restaurantId }: RestaurantInput): Promise<RestaurantOutput>;
+    searchRestaurantByName({ query, page }: SearchRestaurantInput): Promise<SearchRestaurantOutput>;
+    createDish(owner: User, createDishInput: CreateDishInput): Promise<CreateDishOutput>;
+    editDish(owner: User, editDishInput: EdithDishInput): Promise<EditDishOutput>;
+    deleteDish(owner: User, { dishId }: DeleteDishInput): Promise<DeleteDishOutput>;
+}
